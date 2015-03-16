@@ -1,4 +1,6 @@
 <?php
+	include_once('mysql.php');
+
 class toMysql extends mysql {
     		
     function __construct($user="user",$pass="pass",$dbname="dbname"){

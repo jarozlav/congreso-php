@@ -15,7 +15,7 @@ class curso{
     
     
     public static function All(){
-        $sql = 'select * from cursos order by nombre';
+        $sql = 'select * from curso order by nombre';
         return curso::Consulta($sql);
     }
     
@@ -47,7 +47,7 @@ class curso{
     
     public static function Select($where){
         if($where != ''){
-            $sql = 'select * from cursos where '.$where;
+            $sql = 'select * from curso where '.$where;
             return curso::Consulta($sql);
         }
         return null;

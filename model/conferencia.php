@@ -15,8 +15,8 @@ class conferencia{
     
     
     public static function All(){
-        $sql = 'select * from conferencia order by nombre';
-        return curso::Consulta($sql);
+        $sql = 'select * from conferencia';
+        return conferencia::Consulta($sql);
     }
     
     private static function Consulta($sql = ''){
@@ -26,16 +26,16 @@ class conferencia{
             $_mysql = new toMysql();
             $conferencias = $_mysql->_select($sql);
             if($conferencias){
-                foreach($$conferencias as $datos){
+                foreach($conferencias as $datos){
                     $conferencia = new conferencia();
                     $conferencia->nombre = $datos[1];
                     $conferencia->ponente = $datos[2];
                     $conferencia->academia = $datos[3];
                     $conferencia->fecha = $datos[4];
-                    $conferencia->lugar = $datos[6];
-                    $conferencia->hora = $datos[7];
-                    $conferencia->precio = $datos[8];
-                    $$conferencias_[$index] = $curso;
+                    //$conferencia->lugar = $datos[6];
+                    $conferencia->hora = $datos[5];
+                    $conferencia->precio = $datos[6];
+                    $conferencias_[$index] = $conferencia;
                     $index += 1;
                 }
             }
@@ -47,7 +47,7 @@ class conferencia{
     public static function Select($where){
         if($where != ''){
             $sql = 'select * from conferencia where '.$where;
-            return curso::Consulta($sql);
+            return conferencia::Consulta($sql);
         }
         return null;
     }

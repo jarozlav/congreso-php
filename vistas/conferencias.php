@@ -86,14 +86,6 @@
                         </tr>
                         <tr>
                             <td class='text'>
-                                Lugar de la conferencia:
-                            </td>
-                            <td class='data'>
-                                <?php echo $conferencia->lugar?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class='text'>
                                 Hora del conferencia:
                             </td>
                             <td class='data'>

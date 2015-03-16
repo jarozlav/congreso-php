@@ -12,9 +12,9 @@ class mysql {
     
     private $dbname="";
     
-    private $host="localhost"; // ip or hostname of server mysql
+    private $host="server";
     
-    //private $port=0; //number server port
+    //private $port=5432;
      
     private $sql="";
     
@@ -37,16 +37,13 @@ class mysql {
     }
     
     protected function Conectar(){
-	$this->connect=  mysql_connect($this->host, $this->user, $this->pass) or
-	    die('No se pudo conectar con el servidor '.$this->host);
-	mysql_select_db($this->dbname, $this->connect) or
-	    die('No se pudo conectar a la base de datos '.$this->dbname);
+	    $this->connect = new mysqli($this->host, $this->user, $this->pass, $this->dbname);
 	$this->conection = 1;
     }
     
     protected function Desconectar(){
 	$this->conection = -1;
-	mysql_close();
+	$this->connect->close();
     }	
 
     protected function Ejecutar_consulta(){
@@ -59,10 +56,11 @@ class mysql {
 			    return FALSE;
 		    }else{
 			    if($this->valida_select()){
-				    $resultset=mysql_query($this->get_Sql(), $this->conection);
+				    $resultset=$this->connect->query($this->get_Sql());
 				    if($resultset != FALSE){
-					    if(mysql_num_rows($resultset)>0){
+					    if($resultset->num_rows>0){
 						    return $this->convertir_matriz($resultset);
+$resultset->close();
 					    }else{
 						    return FALSE;
 					    }	
@@ -83,7 +81,7 @@ class mysql {
 		    $i=0;
 		    $j=0;
 		    $array=NULL;
-		    while($row=mysql_fetch_row($resultset)){
+		    while($row=$resultset->fetch_row()){
 			    foreach ($row as $data) {
 				    $array[$i][$j]=$data;
 				    $j++;
@@ -119,9 +117,9 @@ class mysql {
 			    throw new Exception("mysql->Ejecutar_comando(): No hay consulta");
 			    return FALSE;
 		    }else{
-			    $command=mysql_query($this->get_Sql(), $this->conection);
+			    $command=$this->connect->query($this->get_Sql());
 			    if($command != FALSE){
-				    return mysql_affected_rows($command);
+				    return $this->connect->affected_rows;
 			    }
 			    else{
 				    throw new Exception("mysql->Ejecutar_comando(): No se ejecuto correctamente el comando");
